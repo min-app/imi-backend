@@ -1,0 +1,9 @@
+.idea/
+.DS_Store
+node_modules
+yarn.lock
+package-lock.json
+yarn-error.log
+.flowconfig
+.gitmodules
+deploy.sh

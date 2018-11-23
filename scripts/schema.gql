@@ -1,0 +1,1925 @@
+"""{"target":"Clinic"}"""
+type _remote_Clinic {
+  id: String
+}
+
+"""__应用中心"""
+type ApplicationCenter implements Node {
+  id: ID!
+  clinicId: ID
+
+  """诊所"""
+  clinic: Clinic!
+
+  """应用类型"""
+  applicationType: ApplicationCenterApplicationType!
+
+  """是否启用"""
+  enabled: Boolean!
+
+  """是否强制启用"""
+  forceEnabled: Boolean!
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__"""
+enum ApplicationCenterApplicationType {
+  E01Order
+  RetailPharmacy
+  Inspection
+  HospitalizationManage
+  GradedReferral
+  Videoconferencing
+}
+
+"""__A connection to a list of items."""
+type ApplicationCenterConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ApplicationCenterEdge]
+  count: Float
+}
+
+"""__An edge in a connection."""
+type ApplicationCenterEdge {
+  """The item at the end of the edge"""
+  node: ApplicationCenter
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""__大区"""
+type Area implements Node {
+  id: ID!
+
+  """大区名"""
+  name: String
+
+  """大区编码"""
+  code: String
+  createdAt: Date
+  updatedAt: Date
+  companys(
+    """返回的记录应该在cursor:after之后"""
+    after: String
+
+    """指定最多返回记录的数量"""
+    first: Float
+    before: String
+    last: Float
+  ): CompanyConnection
+}
+
+"""__城市"""
+type City implements Node {
+  id: ID!
+
+  """城市名"""
+  name: String
+
+  """城市编码"""
+  code: String
+  provinceId: ID
+
+  """所属省id"""
+  province: Province!
+
+  """邮政编码"""
+  postCode: String
+
+  """已激活的：只有当该区域创建了诊所时，该区域自动变为可用"""
+  activated: Boolean
+  createdAt: Date
+  updatedAt: Date
+  clinics(
+    """返回的记录应该在cursor:after之后"""
+    after: String
+
+    """指定最多返回记录的数量"""
+    first: Float
+    before: String
+    last: Float
+  ): ClinicConnection
+  districts(
+    """返回的记录应该在cursor:after之后"""
+    after: String
+
+    """指定最多返回记录的数量"""
+    first: Float
+    before: String
+    last: Float
+  ): DistrictConnection
+}
+
+"""__A connection to a list of items."""
+type CityConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [CityEdge]
+  count: Float
+}
+
+"""__An edge in a connection."""
+type CityEdge {
+  """The item at the end of the edge"""
+  node: City
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""__诊所模型"""
+type Clinic implements Node {
+  id: ID!
+
+  """诊所名称"""
+  name: String!
+
+  """诊所代码"""
+  code: String!
+  cityId: ID
+
+  """诊所所在城市"""
+  city: City!
+  provinceId: ID
+
+  """诊所所在省份"""
+  province: Province
+  areaId: ID
+
+  """诊所所在大区"""
+  area: Area
+  companyId: ID
+
+  """诊所所属省公司"""
+  company: Company
+  coverImageId: ID
+
+  """诊所封面"""
+  coverImage: Image
+
+  """诊所地址"""
+  address: String
+
+  """诊所联系人号码"""
+  phoneNumber: String
+
+  """诊所联系人姓名"""
+  contactName: String
+
+  """诊所联系人电话"""
+  contactPhone: String
+
+  """诊所简介"""
+  description: String
+
+  """是否归档"""
+  archived: Boolean!
+
+  """诊所经度"""
+  longitude: Float
+
+  """诊所纬度"""
+  latitude: Float
+
+  """是否为院外处方诊所"""
+  isE01Clinic: Boolean
+
+  """诊所是否可预约"""
+  isReservation: Boolean
+
+  """诊所标签"""
+  tags: String
+
+  """诊所营业状态"""
+  status: String
+
+  """营业开始时间"""
+  openTime: Date
+
+  """营业结束时间"""
+  closeTime: Date
+  createdAt: Date
+  updatedAt: Date
+  clinicTags: [String]
+  zhyfConfig: ClinicZhyfConfig
+
+  """默认诊室"""
+  defaultClinicRoom: ClinicRoom
+  clinicalRecordTotal(date: Date): Float
+  reservationTotal(date: Date): Float
+  userClinicalRecordTotal(date: Date): Float
+  userVisitClinicalRecordTotal(date: Date): Float
+  doctorCount: Float
+  clinicDepartments(
+    """返回的记录应该在cursor:after之后"""
+    after: String
+
+    """指定最多返回记录的数量"""
+    first: Float
+    before: String
+    last: Float
+  ): ClinicDepartmentConnection
+  clinicConfig(
+    """返回的记录应该在cursor:after之后"""
+    after: String
+
+    """指定最多返回记录的数量"""
+    first: Float
+    before: String
+    last: Float
+  ): ClinicConfigConnection
+  clinicFiles(
+    """返回的记录应该在cursor:after之后"""
+    after: String
+
+    """指定最多返回记录的数量"""
+    first: Float
+    before: String
+    last: Float
+  ): ClinicFileConnection
+  applicationCenters(
+    """返回的记录应该在cursor:after之后"""
+    after: String
+
+    """指定最多返回记录的数量"""
+    first: Float
+    before: String
+    last: Float
+  ): ApplicationCenterConnection
+  clinicPatientRanges(
+    """返回的记录应该在cursor:after之后"""
+    after: String
+
+    """指定最多返回记录的数量"""
+    first: Float
+    before: String
+    last: Float
+  ): ClinicPatientRangeConnection
+}
+
+"""__"""
+type ClinicConfig implements Node {
+  id: ID!
+  clinicId: ID
+  clinic: Clinic
+  key: String
+
+  """JSON格式字符串,key值为驼峰命名方式"""
+  value: String
+  title: String
+  description: String
+  readOnly: Boolean
+
+  """是否需要默认设置"""
+  isSetDefault: Boolean
+  createdAt: Date
+  updatedAt: Date
+  parseValue: Json
+}
+
+"""__A connection to a list of items."""
+type ClinicConfigConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ClinicConfigEdge]
+  count: Float
+}
+
+"""__An edge in a connection."""
+type ClinicConfigEdge {
+  """The item at the end of the edge"""
+  node: ClinicConfig
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""__A connection to a list of items."""
+type ClinicConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ClinicEdge]
+  count: Float
+}
+
+"""__"""
+type ClinicDepartment implements Node {
+  id: ID!
+  clinicId: ID
+  clinic: Clinic!
+  departmentId: ID
+  department: Department!
+  enabled: Boolean
+
+  """弃用，待删除"""
+  name: String
+  departmentTypeId: ID
+
+  """弃用，待删除"""
+  departmentType: DepartmentTypeName
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__A connection to a list of items."""
+type ClinicDepartmentConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ClinicDepartmentEdge]
+  count: Float
+}
+
+"""__An edge in a connection."""
+type ClinicDepartmentEdge {
+  """The item at the end of the edge"""
+  node: ClinicDepartment
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""__An edge in a connection."""
+type ClinicEdge {
+  """The item at the end of the edge"""
+  node: Clinic
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""__"""
+type ClinicFile implements Node {
+  id: ID!
+  clinicId: ID
+  clinic: Clinic!
+  fileId: ID
+  file: File!
+  createdById: ID
+  createdBy: ClinicUser!
+  description: String
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__A connection to a list of items."""
+type ClinicFileConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ClinicFileEdge]
+  count: Float
+}
+
+"""__An edge in a connection."""
+type ClinicFileEdge {
+  """The item at the end of the edge"""
+  node: ClinicFile
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""__Global id of Clinic"""
+scalar ClinicId
+
+"""__"""
+type ClinicMemberType implements Node {
+  id: ID!
+  name: String!
+  clinicId: ID
+  clinic: Clinic!
+  discountCheck: Float!
+  discountInspection: Float!
+  discountTreatment: Float!
+  discountChinesePrescription: Float!
+  discountPrescription: Float!
+  discountOtherCharge: Float!
+  discountDiagnosisCharge: Float!
+  enabled: Boolean!
+
+  """是否可更改，如普通会员不能更改和删除，为false"""
+  mutable: Boolean
+  deletedAt: Date
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__患者诊所关联"""
+type ClinicPatientRange implements Node {
+  id: ID!
+  clinicId: ID
+
+  """诊所"""
+  clinic: Clinic!
+  relationClinicId: ID
+
+  """关联诊所"""
+  relationClinic: Clinic!
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__A connection to a list of items."""
+type ClinicPatientRangeConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ClinicPatientRangeEdge]
+  count: Float
+}
+
+"""__An edge in a connection."""
+type ClinicPatientRangeEdge {
+  """The item at the end of the edge"""
+  node: ClinicPatientRange
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""__"""
+type ClinicRole implements Node {
+  id: ID!
+  clinicUserId: ID
+  clinicUser: ClinicUser!
+  clinicId: ID
+
+  """诊所"""
+  clinic: Clinic
+
+  """ 'Admin', 'Market', 'Finance', 'Personnel', 'Boss', 'Staff',
+  'DoctorWorkstation', 'NurseWorkstation', 'PharmacyWorkstation', 'CashierDesk',
+  'ClinicWorkstation'，其他的弃用
+  """
+  name: ClinicRoleName!
+
+  """前台权限、后台权限"""
+  permissionType: ClinicRolePermissionType
+
+  """后台权限范围类型：全站、区域、诊所"""
+  scopeType: ClinicRoleScopeType
+  createdAt: Date
+  updatedAt: Date
+  clinicUserPermissions(
+    """返回的记录应该在cursor:after之后"""
+    after: String
+
+    """指定最多返回记录的数量"""
+    first: Float
+    before: String
+    last: Float
+  ): ClinicUserPermissionConnection
+}
+
+"""__A connection to a list of items."""
+type ClinicRoleConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ClinicRoleEdge]
+  count: Float
+}
+
+"""__An edge in a connection."""
+type ClinicRoleEdge {
+  """The item at the end of the edge"""
+  node: ClinicRole
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""__"""
+enum ClinicRoleName {
+  SystemAdmin
+  SystemOperator
+  ClinicAdmin
+  Guidance
+  Cashier
+  Doctor
+  StockKeeper
+  Pharmacist
+  Wisdom
+  Admin
+  Market
+  Finance
+  Personnel
+  Boss
+  Staff
+  DoctorWorkstation
+  NurseWorkstation
+  PharmacyWorkstation
+  CashierDesk
+  ClinicWorkstation
+}
+
+"""__"""
+enum ClinicRolePermissionType {
+  Frontend
+  Backend
+}
+
+"""__"""
+enum ClinicRoleScopeType {
+  Site
+  Area
+  Clinic
+}
+
+"""__"""
+type ClinicRoom implements Node {
+  id: ID!
+  clinicId: ID
+  clinic: Clinic!
+  name: String!
+  enabled: Boolean!
+  clinicRoomTypeId: ID
+  clinicRoomType: RoomTypeName!
+
+  """是否默认诊室（快速接诊时使用默认诊室）"""
+  isDefault: Boolean
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__人员信息"""
+type ClinicStaff implements Node {
+  id: ID!
+
+  """省编号2位+市编号2位+人员唯一ID 6位 共10位数字"""
+  userCode: String
+  realName: String!
+  jobPositionId: ID
+  jobPosition: JobPositionName
+  jobTypeId: ID
+  jobType: JobTypeName
+  gender: Int
+
+  """生日"""
+  birthday: Date
+  email: String
+  idCardNumber: String
+  cityId: ID
+  city: City
+  provinceId: ID
+  province: Province
+  clinicUserId: ID
+  clinicUser: ClinicUser
+  avatarImageId: ID
+  avatarImage: Image
+  clinicId: ID
+  clinic: Clinic
+
+  """是否默认诊所"""
+  isDefault: Boolean
+  isClinicAdmin: Boolean
+
+  """有效标识"""
+  enabled: Boolean
+
+  """账号是否停用，默认启用"""
+  isBlocked: Boolean
+  doctorId: ID
+  doctor: Doctor
+  insteadDoctorId: ID
+  insteadDoctor: Doctor
+  expertAssistantClinicStaffId: ID
+  expertAssistantClinicStaff: ClinicStaff
+
+  """医生：诊所诊疗费（挂号费）"""
+  reservationFee: Float
+  clinicDepartmentId: ID
+
+  """科室"""
+  clinicDepartment: ClinicDepartment
+  nurseId: ID
+  nurse: Nurse
+  clinicWechatUserId: ID
+
+  """微信号"""
+  clinicWechatUser: ClinicWechatUser
+
+  """诊所执业权限"""
+  jobPermission: String
+
+  """是否为专家特助 1：是 0：否"""
+  expertAssistant: Float
+  createdAt: Date
+  updatedAt: Date
+
+  """年龄"""
+  age: Int
+
+  """当前诊所代开方医生"""
+  insteadDoctors: [Doctor]
+
+  """当前用户的菜单权限"""
+  permissions(
+    """平台：后端、前端"""
+    platform: ClinicStaffPermissionsPlatform!
+  ): [String]
+
+  """当前用户拥有的权限角色"""
+  clinicRoleNames: [String]
+  schedules(scheduleDate: Date, scheduleEndDate: Date): ClinicStaffSchedules
+  subscribedCount: Float
+  isSubscribed: Subscribe
+}
+
+"""__A connection to a list of items."""
+type ClinicStaffConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ClinicStaffEdge]
+  count: Float
+}
+
+"""__An edge in a connection."""
+type ClinicStaffEdge {
+  """The item at the end of the edge"""
+  node: ClinicStaff
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""__"""
+enum ClinicStaffPermissionsPlatform {
+  Backend
+  Frontend
+}
+
+"""__"""
+type ClinicStaffSchedules {
+  count: Int
+  data: [Json]
+}
+
+"""__诊所用户"""
+type ClinicUser implements Node {
+  id: ID!
+  username: String
+  passwordHash: String!
+  realName: String
+  isBlocked: Boolean
+  phoneNumber: String!
+  email: String
+  idCardNumber: String
+  gender: Float
+  createdAt: Date
+  updatedAt: Date
+  currentClinicRoles(
+    """返回的记录应该在cursor:after之后"""
+    after: String
+
+    """指定最多返回记录的数量"""
+    first: Float
+    before: String
+    last: Float
+    clinicId: ClinicId
+  ): ClinicRoleConnection
+
+  """前端权限（去重）"""
+  frontendClinicRoleNames: [String]
+  clinicStaffs(
+    """返回的记录应该在cursor:after之后"""
+    after: String
+
+    """指定最多返回记录的数量"""
+    first: Float
+    before: String
+    last: Float
+  ): ClinicStaffConnection
+  clinicRoles(
+    """返回的记录应该在cursor:after之后"""
+    after: String
+
+    """指定最多返回记录的数量"""
+    first: Float
+    before: String
+    last: Float
+  ): ClinicRoleConnection
+  clinicUserStudies(
+    """返回的记录应该在cursor:after之后"""
+    after: String
+
+    """指定最多返回记录的数量"""
+    first: Float
+    before: String
+    last: Float
+  ): ClinicUserStudyConnection
+  clinicUserConfig: ClinicUserConfig
+}
+
+"""__医生配置表"""
+type ClinicUserConfig implements Node {
+  id: ID!
+  clinicUserId: ID
+  clinicUser: ClinicUser!
+  value: Json
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__用户功能权限"""
+type ClinicUserPermission implements Node {
+  id: ID!
+  clinicRoleId: ID
+
+  """用户角色"""
+  clinicRole: ClinicRole!
+
+  """前端权限：功能权限编码"""
+  actionPermission: String
+  clinicPermissionId: ID
+
+  """诊所权限：诊所"""
+  clinicPermission: Clinic
+  provincePermissionId: ID
+
+  """区域权限：省"""
+  provincePermission: Province
+  cityPermissionId: ID
+
+  """区域权限：市"""
+  cityPermission: City
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__A connection to a list of items."""
+type ClinicUserPermissionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ClinicUserPermissionEdge]
+  count: Float
+}
+
+"""__An edge in a connection."""
+type ClinicUserPermissionEdge {
+  """The item at the end of the edge"""
+  node: ClinicUserPermission
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""__诊所用户学习记录"""
+type ClinicUserStudy implements Node {
+  id: ID!
+  clinicUserId: ID
+  clinicUser: ClinicUser!
+
+  """课程事件类型"""
+  lessonKey: String!
+
+  """课程名称"""
+  lessonName: String!
+
+  """
+  课程类型(Clinic: "诊所站", Pharmacy: "药房站", Nurse: "护士站", Collect: "收银站", Doctor: "医生站")
+  """
+  lessonType: ClinicUserStudyLessonType!
+  star: Int!
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__A connection to a list of items."""
+type ClinicUserStudyConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ClinicUserStudyEdge]
+  count: Float
+}
+
+"""__An edge in a connection."""
+type ClinicUserStudyEdge {
+  """The item at the end of the edge"""
+  node: ClinicUserStudy
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""__"""
+enum ClinicUserStudyLessonType {
+  Clinic
+  Pharmacy
+  Nurse
+  Collect
+  Doctor
+}
+
+"""__微信用户信息（后台微信登录）"""
+type ClinicWechatUser implements Node {
+  id: ID!
+  openid: String!
+  nickname: String
+
+  """用户的性别，值为1时是男性，值为2时是女性，值为0时是未知"""
+  sex: Float
+  province: String
+  city: String
+
+  """国家，如中国为CN"""
+  country: String
+  headImgUrl: String
+
+  """用户特权信息，json 数组，如微信沃卡用户为（chinaunicom）"""
+  privilege: String
+
+  """只有在用户将公众号绑定到微信开放平台帐号后，才会出现该字段。"""
+  unionid: String
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__"""
+type ClinicZhyfConfig {
+  """取药方式"""
+  getMethod: [String]
+
+  """支付方式"""
+  payType: [String]
+
+  """运费"""
+  expressFee: String
+}
+
+"""__公司"""
+type Company implements Node {
+  id: ID!
+
+  """公司名"""
+  name: String
+
+  """公司编码"""
+  code: String
+  areaId: ID
+
+  """所属大区"""
+  area: Area
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__A connection to a list of items."""
+type CompanyConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [CompanyEdge]
+  count: Float
+}
+
+"""__An edge in a connection."""
+type CompanyEdge {
+  """The item at the end of the edge"""
+  node: Company
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""__"""
+scalar Date
+
+"""__"""
+type Department implements Node {
+  id: ID!
+  name: String!
+  departmentTypeId: ID
+
+  """科室类型"""
+  departmentType: DepartmentTypeName!
+  enabled: Boolean
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__"""
+type DepartmentTypeName implements Node {
+  id: ID!
+  name: String
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__区"""
+type District implements Node {
+  id: ID!
+
+  """区名"""
+  name: String
+
+  """编码"""
+  code: String
+  cityId: ID
+
+  """所属市"""
+  city: City!
+
+  """邮编"""
+  postCode: String
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__A connection to a list of items."""
+type DistrictConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [DistrictEdge]
+  count: Float
+}
+
+"""__An edge in a connection."""
+type DistrictEdge {
+  """The item at the end of the edge"""
+  node: District
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""__医生总库，存放主要信息：基础资料，个人信息(头像、个人公众号)，职业信息（个人简介）"""
+type Doctor implements Node {
+  id: ID!
+
+  """用户编码"""
+  userCode: String
+
+  """手机号"""
+  phoneNumber: String!
+
+  """密码"""
+  password: String
+
+  """真实姓名"""
+  realName: String!
+
+  """是否可用"""
+  enabled: Boolean
+
+  """性别。"""
+  gender: Int
+
+  """系统身份：诊所全职医生，诊所坐诊专家，阿鹿医生，分级诊疗医生，丽珠医生客户,诊所院外专家"""
+  doctorType: DoctorDoctorType!
+
+  """出生日期"""
+  birthday: Date
+
+  """身份证号"""
+  idCardNumber: String
+
+  """执业医师资格证"""
+  qualification: String
+  cityId: ID
+
+  """所在市"""
+  city: City
+  provinceId: ID
+
+  """所在省"""
+  province: Province
+
+  """邮箱"""
+  email: String
+  departmentId: ID
+
+  """科室"""
+  department: Department
+
+  """擅长疾病标签，多个以逗号隔开；后期考虑新增标签表维护"""
+  expertiseTag: String
+
+  """擅长领域"""
+  expertise: String
+  avatarImageId: ID
+
+  """头像"""
+  avatarImage: Image
+
+  """个人公众号"""
+  publicNumber: String
+
+  """个人简介"""
+  introduce: String
+
+  """是否绑定账号"""
+  isBound: Boolean
+  clinicWechatUserId: ID
+
+  """微信号"""
+  clinicWechatUser: ClinicWechatUser
+  createdAt: Date
+  updatedAt: Date
+
+  """年龄"""
+  age: Int
+
+  """擅长疾病标签列表"""
+  expertiseTags: [String]
+
+  """系统身份名称"""
+  doctorTypeName: String
+
+  """所在医院"""
+  hospitals: [Hospital]
+
+  """可绑定账号"""
+  boundUser: ClinicUser
+  clinicStaffs(
+    """返回的记录应该在cursor:after之后"""
+    after: String
+
+    """指定最多返回记录的数量"""
+    first: Float
+    before: String
+    last: Float
+  ): ClinicStaffConnection
+  doctorHospitalRels(
+    """返回的记录应该在cursor:after之后"""
+    after: String
+
+    """指定最多返回记录的数量"""
+    first: Float
+    before: String
+    last: Float
+  ): DoctorHospitalRelConnection
+  doctorInfo: DoctorInfo
+}
+
+"""__"""
+enum DoctorDoctorType {
+  clinicFullTime
+  clinicExpert
+  alu
+  hierarchicalDiagnosis
+  livzonCustomer
+  externalDoctor
+}
+
+"""__医生与医院关系"""
+type DoctorHospitalRel implements Node {
+  id: ID!
+  doctorId: ID
+  doctor: Doctor!
+  hospitalId: ID
+  hospital: Hospital!
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__A connection to a list of items."""
+type DoctorHospitalRelConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [DoctorHospitalRelEdge]
+  count: Float
+}
+
+"""__An edge in a connection."""
+type DoctorHospitalRelEdge {
+  """The item at the end of the edge"""
+  node: DoctorHospitalRel
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""
+__医生信息从表，存放次要字段：个人信息（除头像、个人公众号外），职业信息（除个人简介外），学术研究信息，企业相关，社会信息，教育教学信息，家庭资产信息
+"""
+type DoctorInfo implements Node {
+  id: ID!
+  doctorId: ID
+  doctor: Doctor!
+
+  """现居住地"""
+  currentAddress: String
+
+  """家乡"""
+  hometown: String
+
+  """民族"""
+  nation: String
+
+  """身份证地址"""
+  idCardAddress: String
+
+  """户口所在地"""
+  registeredResidence: String
+
+  """QQ"""
+  qqNumber: Float
+
+  """微博"""
+  microblog: String
+
+  """行业"""
+  industry: String
+
+  """临床职务"""
+  clinicalDuties: String
+
+  """行政职务"""
+  administrativePost: String
+
+  """履历信息"""
+  recordInfo: String
+
+  """执业证书"""
+  practisingCertificate: String
+
+  """执业地点"""
+  practicePlace: String
+
+  """执业范围"""
+  practiceScope: String
+
+  """执业类别"""
+  practiceCategory: String
+
+  """发证机关"""
+  issuingAuthority: String
+
+  """协会信息"""
+  associationInfo: String
+
+  """职称"""
+  jobTitle: String
+
+  """研究方向"""
+  researchDirection: String
+
+  """曾参与课题"""
+  topics: String
+
+  """论文"""
+  paper: String
+
+  """对企业认可度"""
+  enterpriseRecognition: String
+
+  """对企业诉求"""
+  enterpriseDemands: String
+
+  """参与活动"""
+  activities: String
+
+  """KOL"""
+  kol: String
+
+  """处方药品"""
+  ethicals: String
+
+  """兴趣爱好"""
+  interests: String
+
+  """社交协会"""
+  socialAssociation: String
+
+  """海外经历"""
+  overseasExperience: String
+
+  """饮食偏好"""
+  foodPreference: String
+
+  """是否清真"""
+  isHalal: String
+
+  """信仰"""
+  belief: String
+
+  """荣誉"""
+  honor: String
+
+  """关系网"""
+  relationNetwork: String
+
+  """高中"""
+  highSchool: String
+
+  """大学"""
+  university: String
+
+  """研究生"""
+  postgraduate: String
+
+  """博士"""
+  doctorInfo: String
+
+  """国内进修"""
+  domesticStudy: String
+
+  """国外进修"""
+  abroadStudy: String
+
+  """院校"""
+  academy: String
+
+  """教学职称"""
+  teachingJobTitle: String
+
+  """父亲"""
+  father: String
+
+  """母亲"""
+  mother: String
+
+  """配偶"""
+  mate: String
+
+  """子女"""
+  children: String
+
+  """房"""
+  house: String
+
+  """车"""
+  vehicle: String
+
+  """参股公司"""
+  jointStockCompany: String
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__"""
+type File implements Node {
+  id: ID!
+  name: String
+  url: String
+  size: Float
+  contentType: String
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__"""
+type Hospital implements Node {
+  id: ID!
+  name: String!
+  code: String
+
+  """别名，多个以逗号隔开；"""
+  alias: String
+  provinceId: ID
+  province: Province!
+  cityId: ID
+  city: City!
+  districtId: ID
+  district: District
+  areaId: ID
+
+  """大区"""
+  area: Area
+  companyId: ID
+  company: Company
+  levelId: ID
+  level: Level
+
+  """Public:公立，Private:民营，Unknown：未知"""
+  hospitalType: HospitalHospitalType
+  enabled: Boolean
+  deletedAt: Date
+  createdAt: Date
+  updatedAt: Date
+
+  """擅长疾病标签列表 """
+  aliasName: [String]
+  hospitalDepartments(
+    """返回的记录应该在cursor:after之后"""
+    after: String
+
+    """指定最多返回记录的数量"""
+    first: Float
+    before: String
+    last: Float
+  ): HospitalDepartmentConnection
+}
+
+"""__"""
+type HospitalDepartment implements Node {
+  id: ID!
+  name: String!
+  hospitalId: ID
+  hospital: Hospital!
+  deletedAt: Date
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__A connection to a list of items."""
+type HospitalDepartmentConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [HospitalDepartmentEdge]
+  count: Float
+}
+
+"""__An edge in a connection."""
+type HospitalDepartmentEdge {
+  """The item at the end of the edge"""
+  node: HospitalDepartment
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""__"""
+enum HospitalHospitalType {
+  Public
+  Private
+  Unknown
+}
+
+"""__"""
+type Image implements Node {
+  id: ID!
+  url: String
+  size: Float
+  contentType: String
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__"""
+type JobPositionName implements Node {
+  id: ID!
+  name: String
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__"""
+type JobTypeName implements Node {
+  id: ID!
+  name: String
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__"""
+scalar Json
+
+"""__"""
+type Level implements Node {
+  id: ID!
+  name: String
+  sort: Int
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__患者关联会员类型"""
+type MapClinicMemberPatient implements Node {
+  id: ID!
+  patientId: ID
+
+  """患者id"""
+  patient: Patient!
+  clinicMemberTypeId: ID
+
+  """诊所会员类型"""
+  clinicMemberType: ClinicMemberType!
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__A connection to a list of items."""
+type MapClinicMemberPatientConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [MapClinicMemberPatientEdge]
+  count: Float
+}
+
+"""__An edge in a connection."""
+type MapClinicMemberPatientEdge {
+  """The item at the end of the edge"""
+  node: MapClinicMemberPatient
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type Mutation {
+
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+"""__护士信息"""
+type Nurse implements Node {
+  id: ID!
+
+  """省编号2位+市编号2位+护士唯一ID 6位 共10位数字"""
+  userCode: String
+  realName: String!
+
+  """enabled=true下唯一"""
+  phoneNumber: String!
+  gender: Int
+  birthday: Date
+  email: String
+  idCardNumber: String
+
+  """护士执业资格证"""
+  qualification: String
+  provinceId: ID
+  province: Province
+  cityId: ID
+  city: City
+  enabled: Boolean
+
+  """是否绑定账号"""
+  isBound: Boolean
+  clinicWechatUserId: ID
+
+  """微信号"""
+  clinicWechatUser: ClinicWechatUser
+  createdAt: Date
+  updatedAt: Date
+
+  """年龄"""
+  age: Int
+
+  """可绑定账号"""
+  boundUser: ClinicUser
+  clinicStaffs(
+    """返回的记录应该在cursor:after之后"""
+    after: String
+
+    """指定最多返回记录的数量"""
+    first: Float
+    before: String
+    last: Float
+  ): ClinicStaffConnection
+}
+
+"""__Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+"""__患者信息"""
+type Patient implements Node {
+  id: ID!
+
+  """真实姓名"""
+  realName: String!
+
+  """1 男；2 女；3 不详"""
+  gender: Int
+
+  """出生日期"""
+  dateOfBirth: Date
+
+  """年龄"""
+  age: Float
+
+  """年龄记录时间"""
+  ageRecordedAt: Date
+
+  """手机号"""
+  phoneNumber: String
+
+  """电话"""
+  telephoneNumber: String
+
+  """邮箱"""
+  email: String
+
+  """身份证号"""
+  idCardNumber: String
+
+  """婚否"""
+  maritalStatus: String
+
+  """职业"""
+  occupation: String
+
+  """名族"""
+  ethnicGroup: String
+
+  """公司"""
+  company: String
+  provinceId: ID
+
+  """所在省"""
+  province: Province
+  cityId: ID
+
+  """所在市"""
+  city: City
+
+  """详细地址"""
+  address: String
+
+  """出生地"""
+  birthPlace: String
+
+  """来源"""
+  source: String
+  avatarImageId: ID
+
+  """头像"""
+  avatarImage: Image
+
+  """诊所会员序列号"""
+  clinicMemberSerialNo: String
+
+  """社保卡"""
+  socialSecurityCard: String
+
+  """拼音码"""
+  pinyinCode: String
+
+  """手机号码是否已验证"""
+  validatedPhone: Boolean!
+  createdAt: Date
+  updatedAt: Date
+  clinicMemberType: ClinicMemberType
+  activateCardCount(clinicId: ClinicId!): Int
+  mapClinicMemberPatients(
+    """返回的记录应该在cursor:after之后"""
+    after: String
+
+    """指定最多返回记录的数量"""
+    first: Float
+    before: String
+    last: Float
+  ): MapClinicMemberPatientConnection
+  userPatient: UserPatient
+}
+
+"""__省"""
+type Province implements Node {
+  id: ID!
+
+  """省名"""
+  name: String
+
+  """编码"""
+  code: String
+
+  """已激活的：只有当该区域创建了诊所时，该区域自动变为可用"""
+  activated: Boolean
+  createdAt: Date
+  updatedAt: Date
+  cities(
+    """返回的记录应该在cursor:after之后"""
+    after: String
+
+    """指定最多返回记录的数量"""
+    first: Float
+    before: String
+    last: Float
+  ): CityConnection
+  clinics(
+    """返回的记录应该在cursor:after之后"""
+    after: String
+
+    """指定最多返回记录的数量"""
+    first: Float
+    before: String
+    last: Float
+  ): ClinicConnection
+}
+
+type Query {
+  testRemote(
+    """Id of Schema TestRemote"""
+    id: TestRemoteId
+  ): TestRemote
+  testRemotes(
+    """返回的记录应该在cursor:after之后"""
+    after: String
+
+    """指定最多返回记录的数量"""
+    first: Float
+    before: String
+    last: Float
+
+    """Query Condition"""
+    condition: TestRemotesConditionInput
+
+    """Sequelize.findAll(option)"""
+    options: TestRemotesOptionsInput
+
+    """Define the sort field"""
+    sort: [TestRemotesSortInput]
+    keywords: TestRemotesKeywordsInput
+  ): TestRemoteConnection
+}
+
+"""__"""
+type RoomTypeName implements Node {
+  id: ID!
+  name: String
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__搜索记录"""
+type Search implements Node {
+  id: ID!
+
+  """搜索词"""
+  word: String
+  userId: ID
+
+  """所属用户"""
+  user: User
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__A connection to a list of items."""
+type SearchConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [SearchEdge]
+  count: Float
+}
+
+"""__An edge in a connection."""
+type SearchEdge {
+  """The item at the end of the edge"""
+  node: Search
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+enum SortOrder {
+  """递增排序"""
+  ASC
+
+  """递减排序"""
+  DESC
+}
+
+"""__用户关注诊所员工"""
+type Subscribe implements Node {
+  id: ID!
+  clinicStaffId: ID
+
+  """诊所员工"""
+  clinicStaff: ClinicStaff!
+  userId: ID
+
+  """用户id"""
+  user: User!
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""用来测试调用微服务的schema"""
+type TestRemote implements Node {
+  id: ID!
+  clinicId: ID
+
+  """诊所"""
+  clinic: Clinic
+
+  """一个默认字段就是用来测试的"""
+  testfield: String
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""A connection to a list of items."""
+type TestRemoteConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [TestRemoteEdge]
+  count: Float
+}
+
+"""An edge in a connection."""
+type TestRemoteEdge {
+  """The item at the end of the edge"""
+  node: TestRemote
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""Global id of TestRemote"""
+scalar TestRemoteId
+
+input TestRemotesConditionInput {
+  """诊所"""
+  clinicId: ClinicId
+
+  """一个默认字段就是用来测试的"""
+  testfield: String
+}
+
+input TestRemotesKeywordsInput {
+  fields: [String]!
+  value: String!
+}
+
+input TestRemotesOptionsInput {
+  where: Json
+  group: String
+}
+
+input TestRemotesSortInput {
+  field: String
+  order: SortOrder
+}
+
+"""__用户信息"""
+type User implements Node {
+  id: ID!
+
+  """用户名"""
+  username: String!
+
+  """昵称"""
+  nickname: String!
+
+  """密码"""
+  passwordHash: String
+  avatarId: ID
+
+  """头像"""
+  avatar: Image
+
+  """手机号"""
+  phoneNumber: String
+  cityId: ID
+
+  """所在市"""
+  city: City
+
+  """注册时间"""
+  registeredAt: Date
+
+  """上次活跃时间"""
+  lastActiveAt: Date
+  createdAt: Date
+  updatedAt: Date
+
+  """用户创建的患者信息"""
+  userPatients: [UserPatient]
+  historicalSearchs(
+    """返回的记录应该在cursor:after之后"""
+    after: String
+
+    """指定最多返回记录的数量"""
+    first: Float
+    before: String
+    last: Float
+  ): SearchConnection
+  wechatUser: WechatUser
+}
+
+"""__用户和患者关联表"""
+type UserPatient implements Node {
+  id: ID!
+
+  """患者类型。reservation：预约创建的。external：院外处方创建的"""
+  type: UserPatientType!
+  patientId: ID
+
+  """患者id"""
+  patient: Patient!
+  userId: ID
+
+  """用户id"""
+  user: User!
+
+  """是否是默认患者"""
+  isDefault: Boolean
+
+  """状态"""
+  status: Boolean
+  deletedAt: Date
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""__"""
+enum UserPatientType {
+  e01
+  reservation
+  external
+}
+
+"""__微信用户"""
+type WechatUser implements Node {
+  id: ID!
+
+  """微信的openid"""
+  openid: String!
+
+  """微信昵称"""
+  wechatNickname: String
+
+  """用户的性别，值为1时是男性，值为2时是女性，值为0时是未知"""
+  sex: Float
+  headImgId: ID
+
+  """头像"""
+  headImg: Image
+
+  """用户所在省"""
+  province: String
+
+  """用户所在市"""
+  city: String
+
+  """国家，如中国为CN"""
+  country: String
+
+  """用户特权信息，json 数组，如微信沃卡用户为（chinaunicom）"""
+  privilege: String
+
+  """只有在用户将公众号绑定到微信开放平台帐号后，才会出现该字段。"""
+  unionid: String
+
+  """用户登录的token"""
+  accessToken: String
+
+  """刷新的token值"""
+  refreshToken: String
+
+  """有效期"""
+  expiredAt: Date
+
+  """是否已关注"""
+  subscribe: Boolean
+
+  """关注时间"""
+  subscribeAt: Date
+
+  """上次活跃时间"""
+  lastMpActiveAt: Date
+  userId: ID
+
+  """用户id"""
+  user: User
+  clinicId: ID
+
+  """所属诊所，扫描阿鹿小护给诊所生成的二维码生成"""
+  clinic: Clinic
+  createdAt: Date
+  updatedAt: Date
+}
