@@ -7,3 +7,4 @@ yarn-error.log
 .flowconfig
 .gitmodules
 deploy.sh
+src/lib/

@@ -3,10 +3,11 @@
     "env"
   ],
   "plugins": [
+    "transform-flow-strip-types",
     "transform-runtime",
     [
       "transform-object-rest-spread",
-      "babel-plugin-transform-builtin-extend",
+      "babel-plugin-transform-builtin-extend"
     ]
   ]
 }
