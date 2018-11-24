@@ -1,7 +1,7 @@
 import schedue from 'node-schedule'
 
 export default async function (sequlize: Sequelize) {
-  function testSchedue () {
+  const testSchedule = async () => {
     const { TestRemote } = sequlize.models
     await TestRemote.create({
       clinicId: 1,
@@ -9,7 +9,7 @@ export default async function (sequlize: Sequelize) {
     })
   }
 
-  schedue.scheduleJob('0 0 * * * *', () => {
-    testSchedue()
+  schedue.scheduleJob('0 0 * * * *', async () => {
+    await testSchedule()
   })
 }

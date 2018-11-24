@@ -1,4 +1,5 @@
 import { fromGlobalId } from 'graphql-relay'
+
 export function isGlobalId (id) {
   try {
     const obj = fromGlobalId(id)

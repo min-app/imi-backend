@@ -2,10 +2,15 @@
  * 读取配置 启动服务
  */
 require('babel-register')
+require('babel-polyfill')
+
 const { init } = require('./lib/logs/init')
 const { redisConfig, category } = require('./config')
+
 init(redisConfig, category)
+
 const server = require('./httpServer')
+
 let nodeEnv = process.env.NODE_ENV
 
 function dumpError (err) {
@@ -39,4 +44,4 @@ global.assert = (ex, message) => {
   }
 }
 
-server.run()
+server.run().then(() => console.log('start running...'))

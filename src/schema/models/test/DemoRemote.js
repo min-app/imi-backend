@@ -2,12 +2,16 @@ import MG from 'mgs-graphql'
 import Sequelize from 'sequelize'
 import { withFilter } from 'graphql-subscriptions/dist/index'
 import { toGlobalId } from 'graphql-relay'
+
 import pubSub from '../../../pubsub'
-const DEMOCHILDREN = 'DemoChildren'
-const DEMOCHILD = 'DemoChild'
-const DEMOREMOTETYPE = 'DemoRemote'
-const RemoteClinicType = MG.remoteSchema('Clinic') // ?为什么这里能拿到远端的Clinic schema 
-const TESTSUBSCRIPTION = 'TESTSUBSCRIPTION'
+
+const DemoChildrenType = 'DemoChildren'
+const DemoChildType = 'DemoChild'
+const DemoRemoteType = 'DemoRemote'
+const RemoteClinicType = MG.remoteSchema('Clinic') // ?为什么这里能拿到远端的Clinic schema
+
+const TEST_SUBSCRIPTION = 'TEST_SUBSCRIPTION'
+
 export default (sequelize: Sequelize) => {
   return MG.schema('DemoRemote', {
     description: '用来测试调用微服务的schema',
@@ -32,7 +36,7 @@ export default (sequelize: Sequelize) => {
               { DemoRemoteId: instance.id, extraField: instance.id + '-0' },
               { DemoRemoteId: instance.id, extraField: instance.id + '-1' }
             ])
-            pubSub.publish(TESTSUBSCRIPTION, { data: 1, status: 1 })
+            pubSub.publish(TEST_SUBSCRIPTION, { data: 1, status: 1 })
           } catch (error) {
             throw new Error(error)
           }
@@ -50,7 +54,7 @@ export default (sequelize: Sequelize) => {
   }).fields(fields)
     .hasMany({
       demoChildren: {
-        target: DEMOCHILDREN,
+        target: DemoChildrenType,
         foreignKey: 'demo_remote_id',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
@@ -59,7 +63,7 @@ export default (sequelize: Sequelize) => {
     })
     .hasOne({
       demoChild: {
-        target: DEMOCHILD,
+        target: DemoChildType,
         foreignKey: 'demo_remote_id',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
@@ -70,7 +74,7 @@ export default (sequelize: Sequelize) => {
       childrenCount: {
         description: '查询DemoRemote表下关联表DemoChildrend的数量',
         $type: Number,
-        resolve: async (root, args, context, infos, { models: { DemoChildren } }) => {
+        resolve: async (root, args, context, info, { models: { DemoChildren } }) => {
           return await DemoChildren.count({ where: { demoRemoteId: root.id } })
         }
       }
@@ -115,11 +119,11 @@ export default (sequelize: Sequelize) => {
       deleteDemoRemotes: {
         description: '自定义deleteMutation批量删除多条demo',
         inputFields: {
-          ids: [DEMOREMOTETYPE]
+          ids: [DemoRemoteType]
         },
         outputFields: {
           code: Number,
-          error: MG.ScalarFieldTypes.JSON
+          error: JSON
         },
         mutateAndGetPayload: async (args, context, info, { models: { DemoRemote } }) => {
           try {
@@ -132,7 +136,7 @@ export default (sequelize: Sequelize) => {
       }
     })
     .subscriptions({
-      TESTSUBSCRIPTION: {
+      testSubscription: {
         description: 'testSubscription',
         resolve: async (payload, args, context, info, sgContext) => {
           return payload
@@ -142,7 +146,7 @@ export default (sequelize: Sequelize) => {
         },
         // Subscriptions resolvers are not a function, but an object with subscribe method, that returns AsyncIterable. 
         subscribe: withFilter(
-          () => pubSub.asyncIterator(TESTSUBSCRIPTION),
+          () => pubSub.asyncIterator(TEST_SUBSCRIPTION),
           (payload, variables) => {
             // payload == { data: 1, status: 1 } 
             console.log('test触发', payload)
@@ -186,13 +190,16 @@ const fields = {
     description: 'Date类型demo字段'
   },
   intField: {
-    $type: MG.ScalarFieldTypes.Int,
+    $type: Number,
+    column: {
+      type: Sequelize.INTEGER
+    },
     required: false,
     default: 0,
     description: 'Int类型demo字段'
   },
   floatField: {
-    $type: MG.ScalarFieldTypes.Float,
+    $type: Number,
     default: 0.1,
     required: false,
     description: 'Float类型demo字段'

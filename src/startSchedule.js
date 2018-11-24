@@ -3,6 +3,7 @@
  */
 require('babel-register')
 require('babel-polyfill')
+
 const server = require('./scheduleServer')
 let nodeEnv = process.env.NODE_ENV
 
@@ -36,5 +37,4 @@ global.assert = (ex, message) => {
   }
 }
 
-server.run()
-console.log('schedule process', process.pid)
+server.run().then(() => console.log('schedule process', process.pid))

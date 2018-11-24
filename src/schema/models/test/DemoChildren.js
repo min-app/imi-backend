@@ -1,5 +1,7 @@
 import MG from 'mgs-graphql'
-const DEMOREMOTE = 'DemoRemote'
+
+const DemoRemoteType = 'DemoRemote'
+
 export default (sequelize: Sequelize) => {
   return MG.schema('DemoChildren', {
     description: '一对一的字表demo',
@@ -23,7 +25,7 @@ export default (sequelize: Sequelize) => {
 
 const fields = {
   demoRemote: {
-    $type: DEMOREMOTE,
+    $type: DemoRemoteType,
     description: '父表主键id'
   },
   extraField: {

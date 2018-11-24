@@ -1,5 +1,6 @@
 import path from 'path'
 import MG from 'mgs-graphql'
+
 import cfg from '../gqlConfig'
 import sequelize from '../sequelize'
 import HandleError from '../lib/error/HandelError'
