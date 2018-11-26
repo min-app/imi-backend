@@ -66,7 +66,7 @@ export default (sequelize: Sequelize) => {
         },
         indexes: {    // 详情见http://docs.sequelizejs.com/manual/tutorial/models-definition.html#indexes
         },
-        scope: {  // 详情见http://docs.sequelizejs.com/manual/tutorial/scopes.html
+        scopes: {  // 详情见http://docs.sequelizejs.com/manual/tutorial/scopes.html
         }
       }
     })
@@ -102,9 +102,9 @@ export default (sequelize: Sequelize) => {
           // 注意：这里使用user实例update会触发User的before/afterUpdate的hook，create destroy同理
           await user.update(args.values)
           // await User.update(values, {
-            where,
-            individualHooks: true   // 同上，如果不配置则会出发before/afterBulkUpdate
-          })
+          //   where,
+          //   individualHooks: true   // 同上，如果不配置则会出发before/afterBulkUpdate
+          // })
           
           return {
             changedUser: user
