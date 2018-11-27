@@ -48,6 +48,7 @@ const UserType = 'User'
 /**
 * 1. 除了明确的对象（User）可以不写description，所有的field query mutation link subscription必须写description
 * 2. 尽量尽量尽量使用自动生成的和自带的方法，80%的功能sequelize都有实现，不要自己写
+* 3. model.findOne findAll等查询时，必须配置attributes(除非业务需要查所有)指定要使用的字段，include时也要指定
 */
 export default (sequelize: Sequelize) => {
   return MG
