@@ -17,8 +17,21 @@ import { initTracer, ApolloTracingContext, ApolloTracingExtension } from './lib/
 // tracing 服务 
 const tracer = initTracer(category, { logger: false })
 const schema = mergeSchema()
+// playground 配置
+const GRAPHQL_PLAYGROUND_CONFIG = {
+  folderName: 'Foo',
+  settings: {
+    'editor.cursorShape': 'line',
+    'editor.fontSize': 14,
+    'editor.reuseHeaders': true,
+    'editor.theme': 'dark'
+  }
+}
+
 const apollo = new ApolloServer({
   schema,
+  introspection: true,  // 生产环境NODE_ENV='production'下schema有问题
+  playground: GRAPHQL_PLAYGROUND_CONFIG,  // 生产环境NODE_ENV='production'下默认是关闭playground的，这里改成默认开启
   context: async ({ req }) => {
     if (req && req.headers) {
       const reqContext = global.reqContext = {
@@ -58,5 +71,5 @@ apollo.applyMiddleware({ app })
 apollo.installSubscriptionHandlers(httpServer)
 
 export async function run () {
-  httpServer.listen({ port: PORT }, () => console.log(`🚀 Server ready at http://localhost:${PORT}`))
+  httpServer.listen({ port: PORT }, () => console.log(`🚀 Server ready at http://localhost:${PORT}${apollo.graphqlPath}`))
 }
