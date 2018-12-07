@@ -35,6 +35,15 @@
   }
   // 之后就可以在代码里面使用 global.sgContext.bindings.a 获取远程接口了
 ```
+3. sequselize调试
+```
+  // 因为开启了trace，sequelize的logging被重写了
+  // 本地调试可以修改src/config.js的logging: console.log
+  // 然后修改src/httpServer.js 
+  apolloTracingContext: new ApolloTracingContext(tracer, req, sequelize)
+  -->
+  apolloTracingContext: new ApolloTracingContext(tracer, req, sequelize, {openSql: false})
+```
 
 
 #### schema书写规范
