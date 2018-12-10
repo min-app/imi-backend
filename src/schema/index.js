@@ -61,7 +61,7 @@ function buildLocalSchemas (models, services, remoteCfg) {
           hook: async function ({ type, config }, { source, args, context, info, models }, next) {
             if (context.span) sequelize.traceLog(context.span)
             if (config.config && config.config.acl) {
-              // console.log("ACL config for " + config.name + ":" + config.config.acl) 
+              // console.log("ACL config for " + config.name + ":" + config.config.acl)
             }
             return next()
           }
@@ -78,7 +78,7 @@ function buildLocalSchemas (models, services, remoteCfg) {
           filter: ({ type, config }) => type === 'query',
           hook: async function ({ type, config }, { source, args, context, info, models }, next) {
             if (args.keywords && args.keywords.fields) {
-              // 转义特殊字符 
+              // 转义特殊字符
               args.keywords.value = args.keywords.value.replace(/(%|_|&|\?)/g, (s) => '\\' + s)
             }
             if (config.config && config.config.hook) {
@@ -104,7 +104,7 @@ function buildLocalSchemas (models, services, remoteCfg) {
   return schema
 }
 
-// merge所有的本地schema和models下的schema 
+// merge所有的本地schema和models下的schema
 function mergeSchema () {
   const { models, services } = listSchemas('./')
   return buildLocalSchemas(models, services, cfg)

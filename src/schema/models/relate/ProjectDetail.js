@@ -28,7 +28,7 @@ export default (sequelize: Sequelize) => {
     .subscriptions({})
     .links({})
     .methods({
-      checkDestroy: async function() {
+      checkDestroy: async function () {
         if (this.count === 0) throw new Error('存在数量为0的projectDetail，不能删除')
       }
     })

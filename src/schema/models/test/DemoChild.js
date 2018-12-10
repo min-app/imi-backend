@@ -1,4 +1,5 @@
 import MG from 'mgs-graphql'
+import Sequelize from 'sequelize'
 
 const DemoRemoteType = 'DemoRemote'
 

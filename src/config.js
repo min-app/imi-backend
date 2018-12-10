@@ -32,7 +32,7 @@ export const redisConfig = {
   password: ''
 }
 
-// winston 日志系统的category 
+// winston 日志系统的category
 export const category = 'logBase'
 
 export const PORT = 9520

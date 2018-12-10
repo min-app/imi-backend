@@ -23,9 +23,9 @@ export default (sequelize: Sequelize) => {
       updateMutation: true
     },
     table: {
-      paranoid: true, // 关闭物理删除 
+      paranoid: true, // 关闭物理删除
       hooks: {
-        // model钩子 
+        // model钩子
         beforeCreate: (instance, options) => {
           instance.clinicId = 1
         },
@@ -56,7 +56,7 @@ export default (sequelize: Sequelize) => {
       },
       indexes: [
         {
-          // 单索引demo 
+          // 单索引demo
           fields: ['number_field']
         },
         {
@@ -66,7 +66,7 @@ export default (sequelize: Sequelize) => {
         }
       ],
       defaultScope: {
-        //默认作用域 每次 .find, .findAll, .count, .update, .increment and .destroy都会带上 
+        // 默认作用域 每次 .find, .findAll, .count, .update, .increment and .destroy都会带上
         where: {
           id: {
             [Sequelize.Op.gte]: 2
@@ -79,7 +79,7 @@ export default (sequelize: Sequelize) => {
             booleanField: true
           }
         },
-        big(value) {
+        big (value) {
           return {
             where: {
               numberField: {
@@ -114,18 +114,18 @@ export default (sequelize: Sequelize) => {
         description: '查询DemoRemote表下关联表DemoChildrend的数量',
         $type: Number,
         resolve: async (root, args, context, info, { models: { DemoChildren } }) => {
-          return await DemoChildren.count({ where: { demoRemoteId: root.id } })
+          return DemoChildren.count({ where: { demoRemoteId: root.id } })
         }
       }
     })
     .statics({
       staticA: async params => {
-        // 静态方法 example => DemoRemote.staticA 
+        // 静态方法 example => DemoRemote.staticA
       }
     })
     .methods({
       instanceA: async () => {
-        // 实例方法 example => demoRemote.instanceA 
+        // 实例方法 example => demoRemote.instanceA
       }
     })
     .queries({
@@ -149,7 +149,7 @@ export default (sequelize: Sequelize) => {
           id: String
         },
         resolve: async (args, context, info, { models, services: { ClinicService } }) => {
-          // 实例使用 见 '../../services/clinic.js' 通用方法 
+          // 实例使用 见 '../../services/clinic.js' 通用方法
           return ClinicService.getClinic({ id: toGlobalId('Clinic', 1) }, '{ id,code }')
         }
       },
@@ -167,7 +167,7 @@ export default (sequelize: Sequelize) => {
             {
               include: [
                 {
-                  model: DemoChildren, // 可以继续scope 
+                  model: DemoChildren, // 可以继续scope
                   as: 'demoChildren',
                   where: sequelize.where(sequelize.fn('char_length', sequelize.col('extra_field')), 3)
                 }
@@ -186,8 +186,8 @@ export default (sequelize: Sequelize) => {
           /**
            * hooks = true
            * individualHooks = true bulkUpdate和update hooks都会触发 update多条数据就触发多次update的hook
-           * individualHooks = false 只触发bulkUpdate 
-           * 
+           * individualHooks = false 只触发bulkUpdate
+           *
            * hooks = false
            * individualHooks = true  update多条也只会触发多次update的hook
            * individualHooks = false 都不触发
@@ -226,11 +226,11 @@ export default (sequelize: Sequelize) => {
         $type: {
           code: Number
         },
-        // Subscriptions resolvers are not a function, but an object with subscribe method, that returns AsyncIterable. 
+        // Subscriptions resolvers are not a function, but an object with subscribe method, that returns AsyncIterable.
         subscribe: withFilter(
           () => pubSub.asyncIterator(TEST_SUBSCRIPTION),
           (payload, variables) => {
-            console.log('test触发', payload)  // 前端必须去subscriptions 才会触发
+            console.log('test触发', payload) // 前端必须去subscriptions 才会触发
             return { code: 1 }
           }
         )
@@ -243,8 +243,8 @@ const fields = {
     $type: String,
     required: true,
     default: 'a',
-    initalizable: false, // 可初始化 
-    mutable: false, // 可变 
+    initalizable: false, // 可初始化
+    mutable: false, // 可变
     enumValues: ['a', 'b', 'c'],
     description: 'String类型demo字段'
   },
@@ -287,7 +287,7 @@ const fields = {
     description: 'Float类型demo字段'
   },
   clinic: {
-    $type: RemoteClinicType, // 其他微服务必须有个字段关联到本地的某张表 
+    $type: RemoteClinicType, // 其他微服务必须有个字段关联到本地的某张表
     description: '远程服务schema的id'
   }
 }

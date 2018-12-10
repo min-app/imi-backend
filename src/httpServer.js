@@ -1,6 +1,3 @@
-/**
- * http 服务配置  中间件 路由 graphql 
- */
 import { ApolloServer } from 'apollo-server-express'
 import express from 'express'
 import cors from 'cors'
@@ -14,7 +11,7 @@ import { PORT, category } from './config'
 import testRouter from './router/test'
 import { initTracer, ApolloTracingContext, ApolloTracingExtension } from './lib/trace'
 
-// tracing 服务 
+// tracing 服务
 const tracer = initTracer(category, { logger: false })
 const schema = mergeSchema()
 // playground 配置
@@ -30,8 +27,8 @@ const GRAPHQL_PLAYGROUND_CONFIG = {
 
 const apollo = new ApolloServer({
   schema,
-  introspection: true,  // 生产环境NODE_ENV='production'下schema有问题
-  playground: GRAPHQL_PLAYGROUND_CONFIG,  // 生产环境NODE_ENV='production'下默认是关闭playground的，这里改成默认开启
+  introspection: true, // 生产环境NODE_ENV='production'下schema有问题
+  playground: GRAPHQL_PLAYGROUND_CONFIG, // 生产环境NODE_ENV='production'下默认是关闭playground的，这里改成默认开启
   context: async ({ req }) => {
     if (req && req.headers) {
       const reqContext = global.reqContext = {

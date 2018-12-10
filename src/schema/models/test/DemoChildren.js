@@ -1,4 +1,5 @@
 import MG from 'mgs-graphql'
+import Sequelize from 'sequelize'
 
 const DemoRemoteType = 'DemoRemote'
 
@@ -21,7 +22,6 @@ export default (sequelize: Sequelize) => {
     }
   }).fields(fields)
 }
-
 
 const fields = {
   demoRemote: {

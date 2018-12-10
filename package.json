@@ -9,20 +9,20 @@
     "test": "jest",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
     "lib": "git submodule init && git submodule update --remote",
-    "dev": "babel-node src/index",
+    "dev": "standard && babel-node src/index",
     "dev_schedule": "babel-node src/startSchedule",
     "start": "pm2 start src/index.js -n $npm_package_serviceName -i max",
     "start_schedule": "pm2 start src/startSchedule.js -n $npm_package_serviceScheduleName -i 1",
     "kill": "pm2 delete $npm_package_serviceName",
     "stop_schedule": "pm2 delete $npm_package_serviceScheduleName",
     "gql": "babel-node scripts/gql",
-    "nodemon" : "nodemon --exec babel-node src/index"
+    "format": "standard --fix"
   },
   "repository": {
     "type": "git",
     "url": "git@120.25.198.74:mgs-backend/base.git"
   },
-  "author": "",
+  "author": "colter",
   "license": "ISC",
   "dependencies": {
     "apollo-server-express": "^2.2.2",
@@ -47,12 +47,27 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-eslint": "^10.0.1",
     "babel-plugin-transform-builtin-extend": "^1.1.2",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0",
-    "nodemon": "^1.18.6"
+    "eslint-plugin-flowtype": "^3.2.0",
+    "nodemon": "^1.18.6",
+    "standard": "^12.0.1"
+  },
+  "pre-commit": [
+    "format"
+  ],
+  "standard": {
+    "parser": "babel-eslint",
+    "plugins": [
+      "flowtype"
+    ],
+    "ignore": [
+      "*test.js"
+    ]
   }
 }

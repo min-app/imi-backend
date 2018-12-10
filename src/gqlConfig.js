@@ -6,7 +6,7 @@ import _ from 'lodash'
  * 调用远端的微服务clinic
  */
 const Endpoints = {
-  __pathCurr2GQL: './schema/remote', // don't modify it 
+  __pathCurr2GQL: './schema/remote', // don't modify it
   clinicBinding: {
     uri: {
       host: '120.78.229.105',

@@ -13,7 +13,7 @@ sequelize.beforeDefine((attributes, options) => options && (options.tableName = 
 
 sequelize.authenticate().then(() => {
   console.log('Connection has been established successfully.')
-  // 测试连接成功 建表 
+  // 测试连接成功 建表
   sequelize.sync().then(() => console.log('All tables has been created'))
 }).catch(err => {
   console.error('Unable to connect to the database:', err)

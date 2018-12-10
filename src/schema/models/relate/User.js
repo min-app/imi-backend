@@ -1,7 +1,7 @@
 import MG from 'mgs-graphql'
 import Sequelize from 'sequelize'
 
-const UserType = 'User'
+// const UserType = 'User'
 const ProjectType = 'Project'
 
 export default (sequelize: Sequelize) => {
