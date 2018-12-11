@@ -1,4 +1,4 @@
-// 生成model
+#### 生成model
 ```
 import MG from 'mgs-graphql'
 import Sequelize from 'sequelize'

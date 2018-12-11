@@ -3,9 +3,8 @@
 2. <a href="http://docs.sequelizejs.com/" target="_blank">sequelize</a>
 3. <a href="https://www.apollographql.com/docs/apollo-server/" target="_blank">apollo-server</a>
 5. <a href="https://github.com/aliyun/aliyun-log-jaeger/blob/master/README_CN.md#%E9%94%99%E8%AF%AF%E8%AF%8A%E6%96%AD" target="_blank">Jaeger on Aliyun Log Service</a>
-
-##### <a href='./doc/name.md'>命名规范</a>
-##### <a href='./doc/webstorm.md'>webstorm自动生成代码</a>
+6. <a href='./doc/name.md'>命名规范</a>
+7. <a href='./doc/webstorm.md'>webstorm自动生成代码</a>
 
 ##### 部署相关@何涛
 1. 拉取代码 git clone , git pull
