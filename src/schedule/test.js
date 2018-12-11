@@ -1,3 +1,4 @@
+import Sequelize from 'sequelize'
 import schedue from 'node-schedule'
 
 export default async function (sequlize: Sequelize) {
