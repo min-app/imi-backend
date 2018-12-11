@@ -1,4 +1,4 @@
-#### 生成model
+#### 生成model(webstorm 设置代码模板，自行百度)
 ```
 import MG from 'mgs-graphql'
 import Sequelize from 'sequelize'

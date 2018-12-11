@@ -17,7 +17,8 @@
 
 #### 开发相关@all
 1. 获取依赖的lib: npm run lib && cd src/lib && npm install
-2. 远程依赖schema
+2. 代码格式化 npm run format(必须执行)
+3. 远程依赖schema
 ```
 1. 生成gql文件(A项目): npm run gql
 2. 使用gql文件: 复制A的gql文件到B项目的src/schema/remote目录，重命名a.gql
@@ -38,7 +39,7 @@ const Endpoints = {
 }
 之后就可以在代码里面使用 global.sgContext.bindings.a 获取远程接口了
 ```
-3. sequselize调试
+4. sequselize调试
 ```
 因为开启了trace，sequelize的logging被重写了
 本地调试可以修改src/config.js的logging: console.log
