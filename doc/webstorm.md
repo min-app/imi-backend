@@ -1,4 +1,5 @@
 // 生成model
+```
 import MG from 'mgs-graphql'
 import Sequelize from 'sequelize'
 
@@ -31,3 +32,4 @@ export default (sequelize: Sequelize) => {
 const fields = {
   
 }
+```
