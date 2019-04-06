@@ -1,11 +1,18 @@
 import Sequelize from 'sequelize'
 
+const {
+  IMI_DB_SCHEMA,
+  IMI_DB_USER,
+  IMI_DB_PASSWORD,
+  IMI_DB_HOST
+} = process.env
+
 export const dbCfg = {
-  schema: 'base',
-  user: 'root',
-  password: 'root', // 123456'
+  schema: IMI_DB_SCHEMA || 'imi',
+  user: IMI_DB_USER || 'root',
+  password: IMI_DB_PASSWORD || 'root',
   options: {
-    host: 'localhost',
+    host: IMI_DB_HOST || 'localhost',
     port: 3306,
     dialect: 'mysql',
     dialectOptions: {
@@ -26,16 +33,26 @@ export const dbCfg = {
   }
 }
 
+const {
+  IMI_REDIS_HOST,
+  IMI_REDIS_PORT,
+  IMI_REDIS_PASSWORD
+} = process.env
+
 export const redisConfig = {
-  host: '127.0.0.1',
-  port: 6379,
-  password: ''
+  host: IMI_REDIS_HOST || '127.0.0.1',
+  port: IMI_REDIS_PORT || 6379,
+  password: IMI_REDIS_PASSWORD || ''
 }
 
+const {
+  IMI_CATEGORY,
+  IMI_PORT
+} = process.env
 // winston 日志系统的category
-export const category = 'logBase'
+export const category = IMI_CATEGORY || 'logImi'
 
-export const PORT = 9520
+export const PORT = IMI_PORT || 8001
 
 // 是否在输出错误信息到日志文件或者控制台
 export const isOutputErrorLog = true

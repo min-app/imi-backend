@@ -7,17 +7,6 @@ import _ from 'lodash'
  */
 const Endpoints = {
   __pathCurr2GQL: './schema/remote', // don't modify it
-  clinicBinding: {
-    uri: {
-      host: '120.78.229.105',
-      port: '9528',
-      path: 'graphql'
-    },
-    gql: {
-      path: 'clinic.gql'
-    },
-    valid: true
-  }
 }
 
 const currEndpoints = {}

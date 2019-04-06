@@ -9,10 +9,10 @@ import middleware from 'express-opentracing'
 import { sequelize, mergeSchema } from './schema'
 import { PORT, category } from './config'
 import testRouter from './router/test'
-import { initTracer, ApolloTracingContext, ApolloTracingExtension } from './lib/trace'
+// import { initTracer, ApolloTracingContext, ApolloTracingExtension } from './lib/trace'
 
 // tracing 服务
-const tracer = initTracer(category, { logger: false })
+// const tracer = initTracer(category, { logger: false })
 const schema = mergeSchema()
 // playground 配置
 const GRAPHQL_PLAYGROUND_CONFIG = {
@@ -33,12 +33,12 @@ const apollo = new ApolloServer({
     if (req && req.headers) {
       const reqContext = global.reqContext = {
         headers: req.headers,
-        apolloTracingContext: new ApolloTracingContext(tracer, req, sequelize)
+        // apolloTracingContext: new ApolloTracingContext(tracer, req, sequelize)
       }
       return reqContext
     }
   },
-  extensions: [() => new ApolloTracingExtension()],
+  // extensions: [() => new ApolloTracingExtension()],
   subscriptions: {
     onConnect: connectionParams => connectionParams
   },
