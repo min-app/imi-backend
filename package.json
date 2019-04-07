@@ -68,7 +68,8 @@
       "flowtype"
     ],
     "ignore": [
-      "*test.js"
+      "*test.js",
+      "src/lib"
     ]
   }
 }
