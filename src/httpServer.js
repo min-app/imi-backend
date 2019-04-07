@@ -4,9 +4,9 @@ import cors from 'cors'
 import bodyParser from 'body-parser'
 import { createServer } from 'http'
 import moment from 'moment'
-import middleware from 'express-opentracing'
+// import middleware from 'express-opentracing'
 
-import { sequelize, mergeSchema } from './schema'
+import { mergeSchema } from './schema'
 import { PORT, category } from './config'
 import testRouter from './router/test'
 // import { initTracer, ApolloTracingContext, ApolloTracingExtension } from './lib/trace'
@@ -32,7 +32,7 @@ const apollo = new ApolloServer({
   context: async ({ req }) => {
     if (req && req.headers) {
       const reqContext = global.reqContext = {
-        headers: req.headers,
+        headers: req.headers
         // apolloTracingContext: new ApolloTracingContext(tracer, req, sequelize)
       }
       return reqContext
@@ -58,7 +58,7 @@ const apollo = new ApolloServer({
 })
 
 const app = express()
-app.use(middleware({ tracer }))
+// app.use(middleware({ tracer }))
 app.use(cors('*'))
 app.use(bodyParser.json())
 app.use('/test', testRouter)
