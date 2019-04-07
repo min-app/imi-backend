@@ -43,17 +43,24 @@ const apollo = new ApolloServer({
     onConnect: connectionParams => connectionParams
   },
   formatError: error => {
+    try {
+      error = JSON.parse(error.message)
+    } catch (e) {
+    }
+
     const message = {
       message: error.message,
+      code: error.code,
       path: error.path,
       timeStamp: moment().format('YYYY-MM-DD HH:mm:ss'),
       category
     }
+    return message
     // gateway要通过message的传递详情，子服务单独调试直接return message
-    return {
-      ...message,
-      message: JSON.stringify(message)
-    }
+    // return {
+    //   ...message,
+    //   message: JSON.stringify(message)
+    // }
   }
 })
 

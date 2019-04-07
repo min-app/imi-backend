@@ -1,50 +1,44 @@
 import MG from 'mgs-graphql'
 import Sequelize from 'sequelize'
 
+// import { NoteError } from '../../lib/error/ModelError'
+
 const UserType = 'User'
-const ProjectDetailType = 'ProjectDetail'
+const ShareType = 'Share'
 
 export default (sequelize: Sequelize) => {
   return MG
-    .schema('Project', {
-      description: 'project...',
+    .schema('ShareCollect', {
+      description: '分享的收藏',
       plugin: {
         addMutation: true,
-        updateMutation: true,
         deleteMutation: true,
+        updateMutation: true,
         singularQuery: true,
         pluralQuery: true
-      },
-      table: {
-        hooks: {}
       }
     })
     .fields(fields)
+    .hasOne({})
     .hasMany({})
-    .hasOne({
-      projectDetail: {
-        target: ProjectDetailType,
-        foreignKey: 'project_id',
-        hooks: true,
-        onDelete: 'CASCADE'
-      }
-    })
+    .links({})
     .queries({})
     .mutations({})
     .subscriptions({})
-    .links({})
     .methods({})
     .statics({})
 }
 
 const fields = {
-  title: {
-    $type: String,
-    required: true,
-    description: 'title....'
-  },
+  // t: {
+  //   $type: String
+  // },
   user: {
     $type: UserType,
+    required: true
+  },
+  share: {
+    $type: ShareType,
     required: true
   }
 }
