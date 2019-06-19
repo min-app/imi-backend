@@ -38,11 +38,19 @@ const {
   IMI_REDIS_PORT,
   IMI_REDIS_PASSWORD
 } = process.env
-
 export const redisConfig = {
   host: IMI_REDIS_HOST || '127.0.0.1',
   port: IMI_REDIS_PORT || 6379,
   password: IMI_REDIS_PASSWORD || ''
+}
+
+const {
+  IMI_MINI_APPID,
+  IMI_MINI_SECRET
+} = process.env
+export const wxMiniConfig = {
+  appid: IMI_MINI_APPID || 'wx2eb5dc08f275c26c',
+  secret: IMI_MINI_SECRET || '04f62fca05307276cd9fe937ef85065c'
 }
 
 const {

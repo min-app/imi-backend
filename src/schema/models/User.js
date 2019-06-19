@@ -1,8 +1,9 @@
 import MG from 'mgs-graphql'
 import Sequelize from 'sequelize'
 
-// import { NoteError } from '../../lib/error/ModelError'
+import { NoteError } from '../../lib/error/ModelError'
 
+const UserType = 'User'
 const WxUserType = 'WxUser'
 const PlanType = 'Plan'
 const ShareType = 'Share'
@@ -58,7 +59,36 @@ export default (sequelize: Sequelize) => {
     })
     .links({})
     .queries({})
-    .mutations({})
+    .mutations({
+      logInByOpenId: {
+        description: '微信小程序登录',
+        inputFields: {
+          openId: String
+        },
+        outputFields: {
+          user: UserType,
+          wxUser: WxUserType
+        },
+        mutateAndGetPayload: async ({ openId }, context, info, { models: { User, WxUser } }) => {
+          const wxUser = await WxUser.findOne({
+            where: { openId },
+            include: [
+              {
+                model: User,
+                as: 'user',
+                required: true
+              }
+            ]
+          })
+          if (!wxUser) throw new NoteError('登录失效')
+
+          return {
+            wxUser,
+            user: wxUser.user
+          }
+        }
+      }
+    })
     .subscriptions({})
     .methods({})
     .statics({})
