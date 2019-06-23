@@ -106,8 +106,8 @@ const fields = {
       validate: {
         to (value) {
           const tomorrow = formatTime(new Date()).add(1, 'd')
-          const diff = formatTime(value).diff(tomorrow)
-          if (diff < 0) throw new NoteError('计划开始时间不得小于第二天')
+          const diff = formatTime(value).diff(formatTime(new Date()).startOf('d'), 'd')
+          if (diff < 1) throw new NoteError('计划开始时间不得小于第二天')
         }
       }
     },
@@ -122,10 +122,10 @@ const fields = {
       validate: {
         maxL (value) {
           const startTime = formatTime(this.getDataValue('startTime'))
-          const diff = formatTime(value).diff(startTime) / 1000
+          const diff = formatTime(value).diff(startTime, 'd')
 
-          if (diff < 3 * 86400) throw new NoteError('计划周期不得小于3天')
-          if (diff > 60 * 86400) throw new NoteError('计划周期不得大于60天')
+          if (diff < 3) throw new NoteError('计划周期不得小于3天')
+          if (diff > 60) throw new NoteError('计划周期不得大于60天')
         }
       }
     },
