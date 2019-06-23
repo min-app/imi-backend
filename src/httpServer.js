@@ -2,12 +2,15 @@ import { ApolloServer } from 'apollo-server-express'
 import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
-import { createServer } from 'http'
+import http from 'http'
+import https from 'https'
 import moment from 'moment'
+import path from 'path'
+import fs from 'fs'
 // import middleware from 'express-opentracing'
 
 import { mergeSchema } from './schema'
-import { PORT, category } from './config'
+import { PORT, category, HOST } from './config'
 import testRouter from './router/test'
 // import { initTracer, ApolloTracingContext, ApolloTracingExtension } from './lib/trace'
 
@@ -70,7 +73,16 @@ app.use(cors('*'))
 app.use(bodyParser.json())
 app.use('/test', testRouter)
 
-const httpServer = createServer(app)
+// const httpServer = createServer(app)
+let httpServer
+  if (HOST === 'https') {
+    httpServer = https.createServer({
+      key: fs.readFileSync(path.resolve(__dirname, '../resource/wss/server.key')),
+      cert: fs.readFileSync(path.resolve(__dirname, '../resource/wss/server.pem'))
+    }, app)
+  } else {
+    httpServer = http.createServer(app)
+  }
 apollo.applyMiddleware({ app })
 apollo.installSubscriptionHandlers(httpServer)
 

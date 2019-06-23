@@ -64,3 +64,5 @@ export const PORT = IMI_PORT || 8001
 
 // 是否在输出错误信息到日志文件或者控制台
 export const isOutputErrorLog = true
+
+export const HOST = process.env.HOST || 'http'
