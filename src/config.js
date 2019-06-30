@@ -54,6 +54,15 @@ export const wxMiniConfig = {
 }
 
 const {
+  IMI_WX_APPID,
+  IMI_WX_SECRET
+} = process.env
+export const wxConfig = {
+  appid: IMI_MINI_APPID || 'wxa6e3ec03c10f947e',
+  secret: IMI_MINI_SECRET || 'f4d6a4ad447a3625223398d15d186a6e'
+}
+
+const {
   IMI_CATEGORY,
   IMI_PORT
 } = process.env
